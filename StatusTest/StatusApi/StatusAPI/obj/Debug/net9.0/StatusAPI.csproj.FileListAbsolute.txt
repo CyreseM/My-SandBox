@@ -132,3 +132,5 @@ C:\Users\cmills\sources\MySandbox\StatusTest\StatusApi\StatusAPI\obj\Debug\net9.
 C:\Users\cmills\sources\MySandbox\StatusTest\StatusApi\StatusAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\cmills\sources\MySandbox\StatusTest\StatusApi\StatusAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\cmills\sources\MySandbox\StatusTest\StatusApi\StatusAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\cmills\sources\MySandbox\StatusTest\StatusApi\StatusAPI\obj\Debug\net9.0\StatusAPI.sourcelink.json
+C:\Users\cmills\sources\MySandbox\StatusTest\StatusApi\StatusAPI\bin\Debug\net9.0\StatusAPI.staticwebassets.runtime.json

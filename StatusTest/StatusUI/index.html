@@ -245,6 +245,34 @@
             padding: 40px;
             color: #7a8a94;
         }
+
+        .status-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            border: 2px solid white;
+            position: relative;
+        }
+
+        .video-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 10px;
+        }
     </style>
 </head>
 
@@ -256,7 +284,7 @@
 
         // Generate a random GUID
         const generateGuid = () => {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0,
                     v = c === 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
@@ -282,6 +310,38 @@
             });
             const [uploading, setUploading] = useState(false);
             const progressInterval = useRef(null);
+            const viewerVideoRef = useRef(null);
+
+            // Rehydrate login state from localStorage
+            useEffect(() => {
+                try {
+                    const stored = localStorage.getItem('status_user');
+                    if (stored) {
+                        const parsed = JSON.parse(stored);
+                        if (parsed && parsed.userId && parsed.userName) {
+                            setUserInfo(parsed);
+                            setIsLoggedIn(true);
+                            setNewStatus(prev => ({ ...prev, userId: parsed.userId, userName: parsed.userName }));
+                        }
+                    }
+                } catch { }
+            }, []);
+
+            const resolveVideoSrc = (url) => {
+                if (!url) return '';
+                if (url.startsWith('http://') || url.startsWith('https://')) return url;
+                return `${API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
+            };
+
+            const handleLogout = async () => {
+                try { localStorage.removeItem('status_user'); } catch { }
+                try { if (connection) await connection.stop(); } catch { }
+                setIsLoggedIn(false);
+                setUserInfo(null);
+                setNewStatus({ userId: '', userName: '', content: '', videoUrl: '' });
+                setIsViewerOpen(false);
+                setCurrentStatusIndex(-1);
+            };
 
             // Fetch statuses from API
             const fetchStatuses = async () => {
@@ -366,6 +426,13 @@
 
             // Handle closing status viewer
             const closeStatusViewer = () => {
+                try {
+                    if (viewerVideoRef.current) {
+                        viewerVideoRef.current.pause();
+                        viewerVideoRef.current.removeAttribute('src');
+                        viewerVideoRef.current.load();
+                    }
+                } catch { }
                 setIsViewerOpen(false);
                 setCurrentStatusIndex(-1);
                 stopProgress();
@@ -499,8 +566,10 @@
                 const userName = document.getElementById('userName').value;
                 if (userName.trim()) {
                     const userId = generateGuid();
-                    setUserInfo({ userId, userName });
+                    const info = { userId, userName };
+                    setUserInfo(info);
                     setIsLoggedIn(true);
+                    try { localStorage.setItem('status_user', JSON.stringify(info)); } catch { }
                     setNewStatus(prev => ({
                         ...prev,
                         userId,
@@ -540,7 +609,12 @@
                 <div className="container">
                     <div className="header">
                         <h1>WhatsApp-like Status Viewer</h1>
-                        <p>Welcome, {userInfo?.userName}! Click on a status to view it</p>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12 }}>
+                            <p>Welcome, {userInfo?.userName}! Click on a status to view it</p>
+                            <button className="upload-button" style={{ padding: '6px 12px' }} onClick={handleLogout}>
+                                Logout
+                            </button>
+                        </div>
                     </div>
 
                     <div className="upload-section">
@@ -591,61 +665,56 @@
                         <div className="status-container">
                             {statuses.map((status, index) => (
                                 <div key={status.id} className="status-circle" onClick={() => openStatusViewer(index)}>
-                                    {status.videoUrl ? (
-                                        <video src={status.videoUrl} />
-                                    ) : (
-                                        <div style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            borderRadius: '50%',
-                                            backgroundColor: '#25d366',
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            color: 'white',
-                                            fontSize: '24px'
-                                        }}>
-                                            {status.userName.charAt(0)}
-                                        </div>
-                                    )}
+                                    <div className="status-preview" style={{ backgroundColor: status.videoUrl ? '#128c7e' : '#25d366' }}>
+                                        {status.videoUrl ? (
+                                            <>
+                                                📹
+                                                <div className="video-indicator">▶</div>
+                                            </>
+                                        ) : (
+                                            status.userName.charAt(0).toUpperCase()
+                                        )}
+                                    </div>
                                     <div className="user-name">{status.userName}</div>
                                 </div>
                             ))}
                         </div>
                     )}
 
-                    <div className={`status-viewer ${isViewerOpen ? 'active' : ''}`}>
-                        <button className="close-button" onClick={closeStatusViewer}>×</button>
+                    {isViewerOpen && (
+                        <div className={`status-viewer active`}>
+                            <button className="close-button" onClick={closeStatusViewer}>×</button>
 
-                        <div className="progress-bar">
-                            <div className="progress" style={{ width: `${progress}%` }}></div>
-                        </div>
-
-                        <div className="status-info">
-                            {currentStatus.userName} • {new Date(currentStatus.createdAt).toLocaleTimeString()}
-                        </div>
-
-                        <div className="status-content">
-                            {currentStatus.videoUrl ? (
-                                <video src={currentStatus.videoUrl} autoPlay controls />
-                            ) : currentStatus.content ? (
-                                <div className="status-text">{currentStatus.content}</div>
-                            ) : (
-                                <div className="status-text">No content</div>
-                            )}
-                        </div>
-
-                        {Array.isArray(currentStatus.viewers) && currentStatus.viewers.length > 0 && (
-                            <div style={{ position: 'absolute', bottom: 90, left: 20, background: 'rgba(0,0,0,0.5)', color: 'white', padding: '8px 12px', borderRadius: '16px' }}>
-                                Viewed by: {currentStatus.viewers.map(v => v.viewerUserName).join(', ')}
+                            <div className="progress-bar">
+                                <div className="progress" style={{ width: `${progress}%` }}></div>
                             </div>
-                        )}
 
-                        <div className="navigation-buttons">
-                            <button className="nav-button" onClick={prevStatus}>←</button>
-                            <button className="nav-button" onClick={nextStatus}>→</button>
+                            <div className="status-info">
+                                {currentStatus.userName} • {new Date(currentStatus.createdAt).toLocaleTimeString()}
+                            </div>
+
+                            <div className="status-content">
+                                {currentStatus.videoUrl ? (
+                                    <video ref={viewerVideoRef} src={resolveVideoSrc(currentStatus.videoUrl)} autoPlay controls preload="metadata" onError={(e) => { console.error('Viewer video failed to load:', e.target.currentSrc); alert('Failed to load video: ' + e.target.currentSrc); }} />
+                                ) : currentStatus.content ? (
+                                    <div className="status-text">{currentStatus.content}</div>
+                                ) : (
+                                    <div className="status-text">No content</div>
+                                )}
+                            </div>
+
+                            {Array.isArray(currentStatus.viewers) && currentStatus.viewers.length > 0 && (
+                                <div style={{ position: 'absolute', bottom: 90, left: 20, background: 'rgba(0,0,0,0.5)', color: 'white', padding: '8px 12px', borderRadius: '16px' }}>
+                                    Viewed by: {currentStatus.viewers.map(v => v.viewerUserName).join(', ')}
+                                </div>
+                            )}
+
+                            <div className="navigation-buttons">
+                                <button className="nav-button" onClick={prevStatus}>←</button>
+                                <button className="nav-button" onClick={nextStatus}>→</button>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             );
         };
