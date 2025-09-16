@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp-like Status Viewer</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #3b4a54;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #128c7e;
+            margin-bottom: 10px;
+        }
+
+        .status-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .status-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            background: linear-gradient(45deg, #128c7e, #25d366);
+            padding: 3px;
+            transition: transform 0.2s;
+        }
+
+        .status-circle:hover {
+            transform: scale(1.05);
+        }
+
+        .status-circle img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
+        .status-circle .user-name {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 12px;
+            color: #3b4a54;
+            width: max-content;
+        }
+
+        .status-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .status-viewer.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .status-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .status-content img,
+        .status-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-text {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            max-height: 60vh;
+            overflow-y: auto;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navigation-buttons {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .status-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 20px;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .progress {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .upload-button {
+            background: #128c7e;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .upload-button:hover {
+            background: #0c6b58;
+        }
+
+        .no-statuses {
+            text-align: center;
+            padding: 40px;
+            color: #7a8a94;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Generate a random GUID
+        const generateGuid = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0,
+                    v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        };
+
+        // Backend API base
+        const API_BASE = 'http://localhost:5026';
+
+        const StatusApp = () => {
+            const [statuses, setStatuses] = useState([]);
+            const [currentStatusIndex, setCurrentStatusIndex] = useState(-1);
+            const [isViewerOpen, setIsViewerOpen] = useState(false);
+            const [progress, setProgress] = useState(0);
+            const [connection, setConnection] = useState(null);
+            const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [userInfo, setUserInfo] = useState(null);
+            const [newStatus, setNewStatus] = useState({
+                userId: '',
+                userName: '',
+                content: '',
+                videoUrl: ''
+            });
+            const [uploading, setUploading] = useState(false);
+            const progressInterval = useRef(null);
+
+            // Fetch statuses from API
+            const fetchStatuses = async () => {
+                try {
+                    const response = await fetch(`${API_BASE}/api/status`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setStatuses(data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching statuses:', error);
+                }
+            };
+
+            // Initialize SignalR connection
+            useEffect(() => {
+                const newConnection = new signalR.HubConnectionBuilder()
+                    .withUrl(`${API_BASE}/statusHub`)
+                    .withAutomaticReconnect()
+                    .build();
+
+                setConnection(newConnection);
+            }, []);
+
+            // Start SignalR connection and set up listeners
+            useEffect(() => {
+                if (connection) {
+                    connection.start()
+                        .then(() => {
+                            console.log('SignalR Connected');
+
+                            connection.on('StatusAdded', (status) => {
+                                setStatuses(prev => [status, ...prev]);
+                            });
+
+                            connection.on('StatusDeleted', (statusId) => {
+                                setStatuses(prev => prev.filter(s => s.id !== statusId));
+                            });
+
+                            connection.on('StatusExpired', (statusId) => {
+                                setStatuses(prev => prev.filter(s => s.id !== statusId));
+                            });
+
+                            connection.on('StatusViewed', (payload) => {
+                                const { statusId, viewerUserId, viewerUserName } = payload;
+                                setStatuses(prev => prev.map(s => {
+                                    if (s.id === statusId) {
+                                        const viewers = Array.isArray(s.viewers) ? s.viewers : [];
+                                        if (!viewers.find(v => v.viewerUserId === viewerUserId)) {
+                                            return { ...s, viewers: [...viewers, { viewerUserId, viewerUserName }] };
+                                        }
+                                    }
+                                    return s;
+                                }));
+                            });
+                        })
+                        .catch(err => console.error('SignalR Connection Error: ', err));
+                }
+
+                return () => {
+                    if (connection) {
+                        connection.stop();
+                    }
+                };
+            }, [connection]);
+
+            // Load statuses on component mount
+            useEffect(() => {
+                fetchStatuses();
+            }, []);
+
+            // Handle opening status viewer
+            const openStatusViewer = (index) => {
+                setCurrentStatusIndex(index);
+                setIsViewerOpen(true);
+                startProgress();
+                const status = statuses[index];
+                if (status && userInfo) {
+                    emitViewed(status.id);
+                }
+            };
+
+            // Handle closing status viewer
+            const closeStatusViewer = () => {
+                setIsViewerOpen(false);
+                setCurrentStatusIndex(-1);
+                stopProgress();
+            };
+
+            // Navigate to next status
+            const nextStatus = () => {
+                stopProgress();
+                if (currentStatusIndex < statuses.length - 1) {
+                    const nextIndex = currentStatusIndex + 1;
+                    setCurrentStatusIndex(nextIndex);
+                    const status = statuses[nextIndex];
+                    if (status && userInfo) {
+                        emitViewed(status.id);
+                    }
+                } else {
+                    closeStatusViewer();
+                }
+                startProgress();
+            };
+
+            // Navigate to previous status
+            const prevStatus = () => {
+                stopProgress();
+                if (currentStatusIndex > 0) {
+                    const prevIndex = currentStatusIndex - 1;
+                    setCurrentStatusIndex(prevIndex);
+                    const status = statuses[prevIndex];
+                    if (status && userInfo) {
+                        emitViewed(status.id);
+                    }
+                }
+                startProgress();
+            };
+
+            // Start progress bar for current status
+            const startProgress = () => {
+                stopProgress();
+                setProgress(0);
+
+                progressInterval.current = setInterval(() => {
+                    setProgress(prev => {
+                        if (prev >= 100) {
+                            nextStatus();
+                            return 0;
+                        }
+                        return prev + 0.5;
+                    });
+                }, 50);
+            };
+
+            // Stop progress bar
+            const stopProgress = () => {
+                if (progressInterval.current) {
+                    clearInterval(progressInterval.current);
+                    progressInterval.current = null;
+                }
+            };
+
+            // Emit viewed event
+            const emitViewed = async (statusId) => {
+                try {
+                    if (connection && connection.state === 'Connected' && userInfo) {
+                        await connection.invoke('StatusViewed', statusId, userInfo.userId, userInfo.userName);
+                    }
+                } catch (e) {
+                    console.warn('Failed to emit viewed:', e);
+                }
+            };
+
+            // Handle status creation
+            const handleCreateStatus = async (e) => {
+                e.preventDefault();
+                setUploading(true);
+
+                try {
+                    const fileInput = document.getElementById('videoFile');
+                    const hasFile = fileInput.files && fileInput.files.length > 0;
+
+                    if (!newStatus.content && !newStatus.videoUrl && !hasFile) {
+                        alert('Please add text, a video URL, or upload a video.');
+                        setUploading(false);
+                        return;
+                    }
+
+                    let response;
+                    if (hasFile) {
+                        const formData = new FormData();
+                        formData.append('userId', newStatus.userId);
+                        formData.append('userName', newStatus.userName);
+                        formData.append('content', newStatus.content || '');
+                        formData.append('video', fileInput.files[0]);
+
+                        response = await fetch(`${API_BASE}/api/status/upload`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                    } else {
+                        response = await fetch(`${API_BASE}/api/status`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newStatus)
+                        });
+                    }
+
+                    if (response.ok) {
+                        setNewStatus({
+                            userId: userInfo.userId,
+                            userName: userInfo.userName,
+                            content: '',
+                            videoUrl: ''
+                        });
+                        fileInput.value = '';
+                        alert('Status created successfully!');
+                    } else {
+                        alert('Error creating status');
+                    }
+                } catch (error) {
+                    console.error('Error creating status:', error);
+                    alert('Error creating status');
+                } finally {
+                    setUploading(false);
+                }
+            };
+
+            // Get current status being viewed
+            const currentStatus = statuses[currentStatusIndex] || {};
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                const userName = document.getElementById('userName').value;
+                if (userName.trim()) {
+                    const userId = generateGuid();
+                    setUserInfo({ userId, userName });
+                    setIsLoggedIn(true);
+                    setNewStatus(prev => ({
+                        ...prev,
+                        userId,
+                        userName
+                    }));
+                }
+            };
+
+            if (!isLoggedIn) {
+                return (
+                    <div className="container">
+                        <div className="header">
+                            <h1>WhatsApp-like Status Viewer</h1>
+                            <p>Please login to continue</p>
+                        </div>
+                        <div className="upload-section">
+                            <form onSubmit={handleLogin}>
+                                <div className="form-group">
+                                    <label>Enter Your Name</label>
+                                    <input
+                                        type="text"
+                                        id="userName"
+                                        required
+                                        placeholder="Your name"
+                                    />
+                                </div>
+                                <button type="submit" className="upload-button">
+                                    Start Viewing Status
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="container">
+                    <div className="header">
+                        <h1>WhatsApp-like Status Viewer</h1>
+                        <p>Welcome, {userInfo?.userName}! Click on a status to view it</p>
+                    </div>
+
+                    <div className="upload-section">
+                        <h2>Create New Status</h2>
+                        <form className="upload-form" onSubmit={handleCreateStatus}>
+                            <div className="form-group">
+                                <label>Status Text (optional)</label>
+                                <textarea
+                                    value={newStatus.content}
+                                    onChange={e => setNewStatus({ ...newStatus, content: e.target.value })}
+                                    rows="3"
+                                    placeholder="What's on your mind?"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Video URL (optional, or upload a video)</label>
+                                <input
+                                    type="text"
+                                    value={newStatus.videoUrl}
+                                    onChange={e => setNewStatus({ ...newStatus, videoUrl: e.target.value })}
+                                    placeholder="https://example.com/video.mp4"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Or Upload Video</label>
+                                <input
+                                    type="file"
+                                    id="videoFile"
+                                    accept="video/*"
+                                />
+                            </div>
+
+                            <button type="submit" className="upload-button" disabled={uploading}>
+                                {uploading ? 'Uploading...' : 'Create Status'}
+                            </button>
+                        </form>
+                    </div>
+
+                    <h2>Recent Statuses</h2>
+
+                    {statuses.length === 0 ? (
+                        <div className="no-statuses">
+                            <p>No statuses available. Create one above!</p>
+                        </div>
+                    ) : (
+                        <div className="status-container">
+                            {statuses.map((status, index) => (
+                                <div key={status.id} className="status-circle" onClick={() => openStatusViewer(index)}>
+                                    {status.videoUrl ? (
+                                        <video src={status.videoUrl} />
+                                    ) : (
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            borderRadius: '50%',
+                                            backgroundColor: '#25d366',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            color: 'white',
+                                            fontSize: '24px'
+                                        }}>
+                                            {status.userName.charAt(0)}
+                                        </div>
+                                    )}
+                                    <div className="user-name">{status.userName}</div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className={`status-viewer ${isViewerOpen ? 'active' : ''}`}>
+                        <button className="close-button" onClick={closeStatusViewer}>×</button>
+
+                        <div className="progress-bar">
+                            <div className="progress" style={{ width: `${progress}%` }}></div>
+                        </div>
+
+                        <div className="status-info">
+                            {currentStatus.userName} • {new Date(currentStatus.createdAt).toLocaleTimeString()}
+                        </div>
+
+                        <div className="status-content">
+                            {currentStatus.videoUrl ? (
+                                <video src={currentStatus.videoUrl} autoPlay controls />
+                            ) : currentStatus.content ? (
+                                <div className="status-text">{currentStatus.content}</div>
+                            ) : (
+                                <div className="status-text">No content</div>
+                            )}
+                        </div>
+
+                        {Array.isArray(currentStatus.viewers) && currentStatus.viewers.length > 0 && (
+                            <div style={{ position: 'absolute', bottom: 90, left: 20, background: 'rgba(0,0,0,0.5)', color: 'white', padding: '8px 12px', borderRadius: '16px' }}>
+                                Viewed by: {currentStatus.viewers.map(v => v.viewerUserName).join(', ')}
+                            </div>
+                        )}
+
+                        <div className="navigation-buttons">
+                            <button className="nav-button" onClick={prevStatus}>←</button>
+                            <button className="nav-button" onClick={nextStatus}>→</button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<StatusApp />);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+@StatusAPI_HostAddress = http://localhost:5026
+
+GET {{StatusAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
