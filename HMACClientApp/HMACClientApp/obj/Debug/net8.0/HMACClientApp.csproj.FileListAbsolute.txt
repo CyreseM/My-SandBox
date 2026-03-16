@@ -1,0 +1,15 @@
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\bin\Debug\net8.0\HMACClientApp.exe
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\bin\Debug\net8.0\HMACClientApp.deps.json
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\bin\Debug\net8.0\HMACClientApp.runtimeconfig.json
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\bin\Debug\net8.0\HMACClientApp.dll
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\bin\Debug\net8.0\HMACClientApp.pdb
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.AssemblyInfoInputs.cache
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.AssemblyInfo.cs
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.csproj.CoreCompileInputs.cache
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.sourcelink.json
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.dll
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\refint\HMACClientApp.dll
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.pdb
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\HMACClientApp.genruntimeconfig.cache
+C:\Users\cmills\sources\MySandbox\HMACClientApp\HMACClientApp\obj\Debug\net8.0\ref\HMACClientApp.dll

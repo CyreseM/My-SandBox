@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ── Light theme ────────────────────────────────────────────────────────── */
+  :root {
+    --background:        210 20% 98%;
+    --foreground:        220 20% 10%;
+    --card:              0 0% 100%;
+    --card-foreground:   220 20% 10%;
+    --sidebar:           210 18% 95%;
+    --primary:           199 89% 42%;
+    --primary-foreground:0 0% 100%;
+    --muted:             210 18% 93%;
+    --muted-foreground:  220 10% 50%;
+    --accent:            210 18% 90%;
+    --accent-foreground: 220 20% 10%;
+    --destructive:       0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border:            210 18% 88%;
+    --radius:            0.625rem;
+  }
+
+  /* ── Dark theme ─────────────────────────────────────────────────────────── */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background:        220 16% 10%;
+      --foreground:        210 20% 92%;
+      --card:              220 16% 13%;
+      --card-foreground:   210 20% 92%;
+      --sidebar:           220 16% 8%;
+      --primary:           199 89% 48%;
+      --primary-foreground:0 0% 100%;
+      --muted:             220 16% 18%;
+      --muted-foreground:  210 12% 55%;
+      --accent:            220 16% 20%;
+      --accent-foreground: 210 20% 92%;
+      --destructive:       0 72% 51%;
+      --destructive-foreground: 0 0% 100%;
+      --border:            220 16% 22%;
+      --radius:            0.625rem;
+    }
+  }
+
+  * { @apply border-border; box-sizing: border-box; }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar        { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track  { background: transparent; }
+  ::-webkit-scrollbar-thumb  { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground; }
+
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer components {
+  .bubble-mine   {
+    @apply bg-primary text-primary-foreground rounded-2xl rounded-br-sm;
+  }
+  .bubble-theirs {
+    @apply bg-card border border-border rounded-2xl rounded-bl-sm;
+    color: hsl(var(--foreground));
+  }
+  .glass {
+    @apply backdrop-blur-md border border-border/50;
+    background: hsl(var(--card) / 0.75);
+  }
+
+  /* Status ring gradient */
+  .status-ring-active {
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4, #3b82f6);
+  }
+  .status-ring-viewed {
+    background: hsl(var(--border));
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.18s ease-out both;
+  }
+  .animate-slide-in {
+    animation: slideIn 0.2s ease-out both;
+  }
+  .animate-scale-in {
+    animation: scaleIn 0.15s ease-out both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes progressBar {
+    from { width: 0%; }
+    to   { width: 100%; }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+}
