@@ -1,0 +1,15 @@
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\bin\Debug\net8.0\AESClientApp.exe
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\bin\Debug\net8.0\AESClientApp.deps.json
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\bin\Debug\net8.0\AESClientApp.runtimeconfig.json
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\bin\Debug\net8.0\AESClientApp.dll
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\bin\Debug\net8.0\AESClientApp.pdb
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.AssemblyInfoInputs.cache
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.AssemblyInfo.cs
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.csproj.CoreCompileInputs.cache
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.sourcelink.json
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.dll
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\refint\AESClientApp.dll
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.pdb
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\AESClientApp.genruntimeconfig.cache
+C:\Users\cmills\sources\MySandbox\EncryptionAndDecryption\AESClientApp\AESClientApp\obj\Debug\net8.0\ref\AESClientApp.dll

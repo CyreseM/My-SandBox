@@ -39,7 +39,7 @@ public class ChatService
         return await ChatsWithIncludes()
             .FirstOrDefaultAsync(c => c.Id == chatId &&
                 c.Members.Any(m => m.UserId == userId));
-    }
+    } 
 
     public async Task<Chat> GetOrCreateDirectAsync(Guid userId, Guid targetUserId)
     {

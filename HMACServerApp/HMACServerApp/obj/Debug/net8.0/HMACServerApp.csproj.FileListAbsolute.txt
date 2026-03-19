@@ -131,10 +131,10 @@ C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\s
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\HMACServ.9818D476.Up2Date
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\HMACServerApp.dll
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\refint\HMACServerApp.dll
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\HMACServerApp.pdb
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\HMACServerApp.genruntimeconfig.cache
 C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\ref\HMACServerApp.dll
+C:\Users\cmills\sources\MySandbox\HMACServerApp\HMACServerApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,0 +1,6 @@
+@AESServerAPP_HostAddress = http://localhost:5160
+
+GET {{AESServerAPP_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

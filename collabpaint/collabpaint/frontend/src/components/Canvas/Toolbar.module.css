@@ -1,0 +1,240 @@
+.toolbar {
+    width: 196px;
+    min-width: 196px;
+    background: var(--white);
+    border-right: 1px solid var(--cloud);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 0;
+    user-select: none
+}
+
+.section {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px
+}
+
+.sectionLabel {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--mist)
+}
+
+.divider {
+    height: 1px;
+    background: var(--cloud);
+    margin: 2px 0
+}
+
+.toolGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px
+}
+
+.toolBtn {
+    position: relative;
+    background: none;
+    border-radius: 7px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-3);
+    transition: background .12s, color .12s
+}
+
+.toolBtn:hover {
+    background: var(--snow);
+    color: var(--ink)
+}
+
+.toolBtn.active {
+    background: var(--accent);
+    color: #fff
+}
+
+.icon {
+    display: flex;
+    width: 17px;
+    height: 17px
+}
+
+.icon svg {
+    width: 100%;
+    height: 100%
+}
+
+.key {
+    position: absolute;
+    bottom: 2px;
+    right: 3px;
+    font-size: 7px;
+    font-family: var(--font-mono);
+    opacity: .5;
+    line-height: 1
+}
+
+.toolBtn.active .key {
+    opacity: .7
+}
+
+.fillRow {
+    display: flex;
+    gap: 4px
+}
+
+.fillBtn {
+    flex: 1;
+    padding: 6px 4px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--snow);
+    color: var(--ink-3);
+    transition: background .12s, color .12s;
+    border: 1.5px solid transparent
+}
+
+.fillBtn:hover {
+    color: var(--ink)
+}
+
+.fillBtn.active {
+    background: var(--accent);
+    color: #fff
+}
+
+.sizeRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px
+}
+
+.sizeBtn {
+    background: none;
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    transition: background .1s
+}
+
+.sizeBtn:hover {
+    background: var(--snow)
+}
+
+.sizeBtn.active {
+    background: rgba(91, 91, 214, .1)
+}
+
+.sizeDot {
+    border-radius: 50%;
+    display: block;
+    flex-shrink: 0
+}
+
+.slider {
+    width: 100%;
+    height: 4px;
+    accent-color: var(--accent);
+    cursor: pointer
+}
+
+.palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px
+}
+
+.swatch {
+    aspect-ratio: 1;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    transition: transform .1s, border-color .1s;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1)
+}
+
+.swatch:hover {
+    transform: scale(1.15)
+}
+
+.activeSwatch {
+    border-color: var(--accent);
+    transform: scale(1.15);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent), inset 0 0 0 1px rgba(0, 0, 0, .1)
+}
+
+.customRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: var(--snow);
+    border-radius: 8px;
+    border: 1px solid var(--cloud)
+}
+
+.colorPreview {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15)
+}
+
+.colorLabel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    cursor: pointer
+}
+
+.colorPicker {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute
+}
+
+.colorHex {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase
+}
+
+.actionBtn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--snow);
+    color: var(--ink-3);
+    padding: 8px 10px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background .12s, color .12s;
+    border: 1px solid var(--cloud)
+}
+
+.actionBtn:hover {
+    background: var(--cloud);
+    color: var(--ink)
+}
+
+.clearBtn:hover {
+    background: rgba(230, 57, 70, .08);
+    color: var(--red);
+    border-color: rgba(230, 57, 70, .2)
+}

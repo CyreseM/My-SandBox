@@ -1,0 +1,44 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:     #0d0d14;
+  --ink-2:   #2a2a3d;
+  --ink-3:   #4a4a6a;
+  --mist:    #8888aa;
+  --cloud:   #e4e4f0;
+  --snow:    #f4f4f8;
+  --white:   #ffffff;
+
+  --accent:      #5b5bd6;
+  --accent-2:    #7c7ce8;
+  --accent-glow: rgba(91,91,214,0.25);
+
+  --red:   #e63946;
+  --green: #2a9d8f;
+  --amber: #e9a14a;
+
+  --radius:    8px;
+  --radius-lg: 14px;
+  --shadow:    0 2px 8px rgba(13,13,20,0.10), 0 1px 2px rgba(13,13,20,0.06);
+  --shadow-lg: 0 8px 32px rgba(13,13,20,0.14), 0 2px 8px rgba(13,13,20,0.06);
+
+  --font-mono: 'Space Mono', monospace;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: var(--font-sans);
+  background: var(--snow);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; font-family: var(--font-sans); border: none; outline: none; }
+input, textarea { font-family: var(--font-sans); outline: none; }
+a { text-decoration: none; color: inherit; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--cloud); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--mist); }

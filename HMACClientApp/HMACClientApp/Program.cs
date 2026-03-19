@@ -7,7 +7,7 @@ public class Program
         // Proper Client ID, Secret, and Base URL of the API
         var clientId = "DesktopClient";
         var secretKey = "m1n2b3v4c5x6z7l8k9j0";
-        var baseUrl = "https://localhost:7035";
+        var baseUrl = "https://localhost:7084";
         var client = new HttpClient
         {
             // Default timeout for HttpClient in .NET is 100 seconds;

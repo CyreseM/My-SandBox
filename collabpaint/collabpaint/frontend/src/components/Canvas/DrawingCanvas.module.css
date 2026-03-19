@@ -1,0 +1,44 @@
+.wrapper {
+    position: relative;
+    flex: 1;
+    overflow: auto;
+    background: #b0b0c0;
+    background-image: linear-gradient(45deg, #a8a8b8 25%, transparent 25%), linear-gradient(-45deg, #a8a8b8 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #a8a8b8 75%), linear-gradient(-45deg, transparent 75%, #a8a8b8 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    padding: 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start
+}
+
+.canvas {
+    display: block;
+    box-shadow: 0 4px 28px rgba(0, 0, 0, .28), 0 1px 4px rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    background: #fff;
+    touch-action: none
+}
+
+.overlay {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    pointer-events: none;
+    border-radius: 2px
+}
+
+.textInput {
+    position: absolute;
+    background: rgba(255, 255, 255, .96);
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 16px;
+    font-family: var(--font-sans);
+    color: var(--ink);
+    outline: none;
+    min-width: 160px;
+    box-shadow: 0 4px 16px var(--accent-glow);
+    z-index: 10
+}

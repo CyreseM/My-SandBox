@@ -1,0 +1,193 @@
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    background: #0d0d14
+}
+
+.bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none
+}
+
+.blob1 {
+    position: absolute;
+    top: -120px;
+    left: -120px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(91, 91, 214, .38) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(60px)
+}
+
+.blob2 {
+    position: absolute;
+    bottom: -80px;
+    right: -80px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(42, 157, 143, .25) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(50px)
+}
+
+.grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+    background-size: 40px 40px
+}
+
+.card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, .05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .4)
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px
+}
+
+.logoIcon {
+    font-size: 28px
+}
+
+.logoText {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -.5px
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -.5px;
+    margin-bottom: 6px
+}
+
+.sub {
+    font-size: 14px;
+    color: rgba(255, 255, 255, .4);
+    margin-bottom: 28px
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: rgba(255, 255, 255, .5)
+}
+
+.input {
+    background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: #fff;
+    transition: border-color .15s, background .15s
+}
+
+.input::placeholder {
+    color: rgba(255, 255, 255, .25)
+}
+
+.input:focus {
+    border-color: rgba(91, 91, 214, .8);
+    background: rgba(91, 91, 214, .09)
+}
+
+.btn {
+    margin-top: 6px;
+    background: #5b5bd6;
+    color: #fff;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.2px;
+    transition: background .15s, transform .1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px
+}
+
+.btn:hover:not(:disabled) {
+    background: #7c7ce8
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(.98)
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, .3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .6s linear infinite
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.switch {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, .4)
+}
+
+.link {
+    color: #7c7ce8;
+    font-weight: 600
+}
+
+.link:hover {
+    color: #fff
+}
