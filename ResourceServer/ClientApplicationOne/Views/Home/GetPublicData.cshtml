@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Public Data";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            @if (ViewBag.PublicData != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    <p>@ViewBag.PublicData</p>
+                </div>
+            }
+            else if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <p>@ViewBag.Error</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

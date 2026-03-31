@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!-- Target .NET 8 (LTS release - Long Term Support) -->
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- This is the name shown in Swagger UI -->
+    <RootNamespace>MasterDataApi</RootNamespace>
+    <AssemblyName>MasterDataApi</AssemblyName>
+    <!-- Generate XML comments file so Swagger can read your /// comments -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Entity Framework Core - our ORM (Object-Relational Mapper) for database access -->
+    <!-- Think of it as a translator between C# objects and database tables -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+
+    <!-- Swashbuckle = the library that generates Swagger/OpenAPI documentation -->
+    <!-- It reads your controllers and /// XML comments automatically -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <!-- Adds XML annotations support (enums as strings, etc.) in Swagger -->
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+
+    <!-- JWT Bearer authentication - validates the Authorization: Bearer <token> header -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+
+    <!-- EPPlus - reads/writes Excel (.xlsx) files for the bulk upload feature -->
+    <PackageReference Include="EPPlus" Version="7.0.0" />
+
+    <!-- FluentValidation - a clean way to validate incoming request data -->
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+  </ItemGroup>
+
+</Project>

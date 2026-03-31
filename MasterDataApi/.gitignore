@@ -1,0 +1,28 @@
+## .gitignore for ASP.NET Core
+
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment-specific secrets (NEVER commit these)
+appsettings.Production.json
+appsettings.Secrets.json
+*.pfx
+*.p12
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Logs
+logs/
+*.log
