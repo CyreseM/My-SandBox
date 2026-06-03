@@ -3,7 +3,7 @@
 //
 // Handles the two Excel-related endpoints:
 //   POST /api/users/upload    — accepts an .xlsx file, processes it
-//   GET  /api/users/template  — returns a blank .xlsx template to fill in
+//   GET  /api/users/template;l,ew  — returns a blank .xlsx template to fill in
 //
 // File upload uses multipart/form-data instead of JSON.
 // That's why this controller has a different [Consumes] attribute.

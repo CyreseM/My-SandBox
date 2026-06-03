@@ -34,6 +34,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Register HMAC middleware so it runs before authorization and controllers
+app.UseMiddleware<HMACAuthenticationMiddleware>();
+
 app.UseAuthorization();
 
 app.MapControllers();

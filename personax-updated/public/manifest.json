@@ -1,0 +1,9 @@
+{
+  "short_name": "PersonaX",
+  "name": "PersonaX Central",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2c62f5",
+  "background_color": "#ffffff"
+}
